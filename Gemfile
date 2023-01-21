@@ -10,8 +10,8 @@ gem "rails", "~> 7.0.4"
 gem "pg", "~> 1.1"
 
 #  secure_password
-
-
+gem 'jwt'
+gem 'bcrypt', '~> 3.1.12'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 

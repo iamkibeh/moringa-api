@@ -66,6 +66,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    bcrypt (3.1.18)
     builder (3.2.4)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
@@ -81,6 +82,7 @@ GEM
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
+    jwt (2.6.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -154,7 +156,9 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bcrypt (~> 3.1.12)
   debug
+  jwt
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)
@@ -164,4 +168,4 @@ RUBY VERSION
    ruby 2.7.4p191
 
 BUNDLED WITH
-   2.4.3
+   2.3.26
