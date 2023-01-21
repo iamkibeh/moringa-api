@@ -23,7 +23,11 @@ default: &default
 
 development:
   <<: *default
-  database: moringa_api_development
+  adapter: postgresql
+  database: moringa
+  pool: 5
+  username: moringa
+  password: Norex34Savy
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
