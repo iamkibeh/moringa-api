@@ -12,16 +12,40 @@ class UsersController < ApplicationController
     end
     
 
-    # Post/login
-    def login
+    # Post/login for alumni login
+    def alumni_login
         @user = User.find_by(email: user_params[:email])
         @user_type = User.find_by(user_type: user_params[:user_type])
 
         if @user && @user_type && @user.authenticate(user_params[:password])
-            token = encode_token({user_id: @user.id})
-            render json: {user: @user, token: token, message: "Your are Successfully logged in" }, status: :ok
+            if @user_type.user_type == "alumni"
+
+                token = encode_token({user_id: @user.id})
+                render json: {user: @user, token: token, message: "Your are Successfully logged in" }, status: :ok
+            else
+                render json: {error: 'We could not find an account with that email address. Please register an account or check your email and try again.'}, status: :unprocessable_entity
+            end
+        
         else
-            render json: {error: 'Invalid email or password'}, status: :unprocessable_entity
+            render json: {error: 'The email or password you entered is incorrect. Please check your login credentials and try again.'}, status: :unprocessable_entity
+        end
+    end
+    # Post/login for company login
+    def company_login
+        @user = User.find_by(email: user_params[:email])
+        @user_type = User.find_by(user_type: user_params[:user_type])
+
+        if @user && @user_type && @user.authenticate(user_params[:password])
+            if @user_type.user_type == "company"
+
+                token = encode_token({user_id: @user.id})
+                render json: {user: @user, token: token, message: "Your are Successfully logged in" }, status: :ok
+            else
+                render json: {error: 'We could not find an account with that email address. Please register an account or check your email and try again.'}, status: :unprocessable_entity
+            end
+        
+        else
+            render json: {error: 'The email or password you entered is incorrect. Please check your login credentials and try again.'}, status: :unprocessable_entity
         end
     end
     private
