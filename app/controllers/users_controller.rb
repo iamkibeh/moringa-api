@@ -18,7 +18,7 @@ class UsersController < ApplicationController
         @user_type = User.find_by(user_type: user_params[:user_type])
 
         if @user && @user_type && @user.authenticate(user_params[:password])
-            if @user_type.user_type == "alumni"
+            if @user.user_type == user_params[:user_type]
 
                 token = encode_token({user_id: @user.id})
                 render json: {user: @user, token: token, message: "Your are Successfully logged in" }, status: :ok
@@ -36,8 +36,7 @@ class UsersController < ApplicationController
         @user_type = User.find_by(user_type: user_params[:user_type])
 
         if @user && @user_type && @user.authenticate(user_params[:password])
-            if @user_type.user_type == "company"
-
+            if  @user.user_type == user_params[:user_type]
                 token = encode_token({user_id: @user.id})
                 render json: {user: @user, token: token, message: "Your are Successfully logged in" }, status: :ok
             else
