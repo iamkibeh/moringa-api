@@ -3,11 +3,12 @@ class UsersController < ApplicationController
     # POST /users
     def create
         @user = User.create(user_params)
+        byebug
         if @user.valid?
-            token = encode_token({user_id: @user.id})
-            render json: {user: @user, token:token, message: "Account succesfully created, please log in."}, status: :ok
+            # token = encode_token({user_id: @user.id})
+            render json: {user: @user, message: "Account succesfully created, please log in."}, status: :ok
         else
-            render json: {error: "Invalid username or password"}, status: :unprocessable_entity
+            render json: {error: @user.errors.full_messages}, status: :unprocessable_entity
         end
     end
     
