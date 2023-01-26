@@ -10,6 +10,12 @@ class UsersController < ApplicationController
             render json: {error: "Invalid username or password"}, status: :unprocessable_entity
         end
     end
+
+
+    # 
+    # def get_alumni
+    #     @alumni = User.where(user_type: 'alumni').all
+    # end
     
 
     # Post/login for alumni login
