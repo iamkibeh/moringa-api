@@ -8,6 +8,6 @@ class Like < ApplicationRecord
   validates :user_id,
             uniqueness: {
               scope: :post_id,
-              message: "You can only like a post once."
+              message: "can only like a post once."
             }
 end

@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
   # GET /comments get all comments for a post
   def index
-    @comments = Comment.where(post_id: params[:post_id])
+    @comments = Comment.where(post_id: params[:id])
     render json: @comments
   end
 
@@ -11,9 +11,9 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
-    @comment.post_id = params[:post_id]
+    @comment.post_id = params[:id]
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      render json: @comment, status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -42,6 +42,6 @@ class CommentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def comment_params
-    params.require(:comment).permit(:comment, :post_id, :user_id)
+    params.permit(:comment, :post_id, :user_id)
   end
 end
