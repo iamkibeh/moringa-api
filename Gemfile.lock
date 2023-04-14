@@ -68,6 +68,7 @@ GEM
       tzinfo (~> 2.0)
     bcrypt (3.1.18)
     builder (3.2.4)
+    byebug (9.1.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     date (3.3.3)
@@ -157,6 +158,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.12)
+  byebug
   debug
   jwt
   pg (~> 1.1)
