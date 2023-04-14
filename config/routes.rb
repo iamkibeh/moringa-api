@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  resource :users, only: [:create]
-  post "/login", to: "users#alumni_login"
-  post "/signin", to: "users#company_login"
+  # resource :users, only: %i[update destroy]
+  post "/login", to: "auth#create"
   post "/signup", to: "users#create"
-
+  get "/users", to: "users#index"
+  get "/users/:id", to: "users#show"
+  patch "/users/:id", to: "users#update"
 end
