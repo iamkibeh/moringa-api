@@ -45,6 +45,25 @@ class UsersController < ApplicationController
     return render json: {}, status: :no_content
   end
 
+  # custom route actions
+
+  def activities
+    @user = User.find(params[:id])
+    @comments = @user.comments
+    @posts = @user.posts
+    @liked_posts = @user.liked_posts
+    if @comments.present? || @posts.present? || @liked_posts.present?
+      render json: {
+               comments: @comments,
+               posts: @posts,
+               liked_posts: @liked_posts
+             },
+             status: :ok
+    else
+      render json: { error: "No activities found" }, status: :not_found
+    end
+  end
+
   private
 
   def user_params
