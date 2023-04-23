@@ -25,4 +25,8 @@ Rails.application.routes.draw do
   delete "/posts/:id/comments", to: "comments#destroy"
   post "/posts/:id/comments/:comment_id", to: "comments#create"
   get "/posts/:id/comments/:comment_id", to: "comments#show"
+
+  # update user cover photo and profile photo
+
+  patch "/users/:id/profile_img", to: "users#update_profile_img"
 end
