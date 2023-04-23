@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
 
+  # attach avatar to user
+  has_one_attached :avatar
+  has_one_attached :cover_photo
+
   validates :email, presence: true, uniqueness: true
   # validates :password, presence: true
   validates :user_type, presence: true, inclusion: { in: %w[alumni client] }

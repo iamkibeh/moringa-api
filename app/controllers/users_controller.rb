@@ -11,6 +11,9 @@ class UsersController < ApplicationController
   #   find single user
   def show
     @user = User.find_by!(id: params[:id])
+    # debugger
+    # user_json =
+    #   @user.as_json(include: :avatar).merge(profile_img: url_for(@user.avatar))
     render json: @user, status: :ok
   end
 
@@ -28,7 +31,23 @@ class UsersController < ApplicationController
   #   update user details
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
+    if @user.update(user_params.except(:profile_img, :cover_img))
+      if params[:profile_img].present? || params[:cover_img].present?
+        if params[:profile_img].present?
+          @user.avatar.attach(params[:profile_img])
+        end
+        if params[:cover_img].present?
+          @user.cover_photo.attach(params[:cover_img])
+        end
+        if @user.update(
+             profile_img: url_for(@user.avatar),
+             cover_img: url_for(@user.cover_photo)
+           )
+          return render json: @user, status: :ok
+        end
+      end
+      # debugger
+
       return render json: @user, status: :ok
     else
       return(
