@@ -5,7 +5,7 @@ class LikesController < ApplicationController
   def index
     # @post = Post.find_by(id: params[:id])
     # @likes = @post.post_like
-    @likes = Like.where(post_id: params[:id]).length
+    @likes = Like.where(post_id: params[:id])
     render json: @likes
   end
 
@@ -19,7 +19,7 @@ class LikesController < ApplicationController
       # Redirect to the appropriate path after a successful save
       # increment the like count for the associated post.
       # @like.post.update(likes_count: @like.post.likes.count)
-      @like.post.increment!(:post_like)
+      @like.post.increment!(:post_likes)
       redirect_to post_path(@like.post_id), notice: "Like created successfully."
     else
       render json: @like.errors.full_messages, status: :unprocessable_entity
@@ -30,7 +30,7 @@ class LikesController < ApplicationController
   def destroy
     if @like.destroy
       # decrement the like count for the associated post.
-      @like.post.decrement!(:post_like)
+      @like.post.decrement!(:post_likes)
       head :no_content
     else
       render json: @like.errors, status: :unprocessable_entity
