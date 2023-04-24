@@ -4,20 +4,23 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.all
-
     render json: @posts
   end
 
   # GET /posts/1
   def show
-    render json: @post
+    # include image url in a post
+    render json: @post, include: :images
   end
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(post_params.except(:images))
     @post.user_id = current_user.id
+    images = params[:post][:images]
+    images.each { |image| @post.images.attach(image) } if images
 
+    # debugger
     if @post.save
       render json: @post, status: :created, location: @post
     else
@@ -48,15 +51,16 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.permit(
+    params.require(:post).permit(
       :post_title,
       :post_description,
-      :post_img,
+      # :post_img,
       :post_like,
       :post_category,
       :post_comment,
       :post_type,
-      :user_id
+      :user_id,
+      images: []
     )
   end
 end
