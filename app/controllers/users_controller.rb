@@ -46,8 +46,6 @@ class UsersController < ApplicationController
           return render json: @user, status: :ok
         end
       end
-      # debugger
-
       return render json: @user, status: :ok
     else
       return(
@@ -86,7 +84,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(
+    params.require(:user).permit(
       :first_name,
       :last_name,
       :phone_number,

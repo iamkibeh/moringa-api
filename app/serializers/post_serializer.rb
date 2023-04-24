@@ -3,9 +3,9 @@ class PostSerializer < ActiveModel::Serializer
              :post_title,
              :post_description,
              :post_img,
-             :post_like,
+             :post_likes,
              :post_category,
-             :post_comment,
+             #  :post_comment,
              :post_type,
              :user_id,
              :created_at

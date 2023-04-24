@@ -17,4 +17,14 @@ class User < ApplicationRecord
   has_many :posts
   has_many :commented_posts, through: :comments, source: :post
   has_many :liked_posts, through: :likes, source: :post
+
+  def profile_img
+    Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+  end
+
+  def cover_img
+    if cover_photo.attached?
+      Rails.application.routes.url_helpers.url_for(cover_photo)
+    end
+  end
 end
