@@ -16,5 +16,6 @@
 			"username": "iamkibeh",
 			"password": "122021994"
 		}
-	]
+	],
+	"dotenv.enableAutocloaking": false
 }
