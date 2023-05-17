@@ -1,4 +1,4 @@
-database:
+databases:
   - name: postgres
     databaseName: moringa_db
     ipAllowList: []
