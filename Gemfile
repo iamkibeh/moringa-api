@@ -19,11 +19,15 @@ gem "puma", "~> 5.0"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem "rack-cors"
+gem "rack-cors"
+
+# For ActiveModel::Serializers
+gem 'active_model_serializers'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
@@ -31,3 +35,8 @@ group :development do
   # gem "spring"
 end
 
+# active storage for file uploads [https://edgeguides.rubyonrails.org/active_storage_overview.html]
+gem "image_processing", "~> 1.2"
+
+# azure storage blob for active storage 
+gem "azure-storage-blob", require: false
