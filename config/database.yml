@@ -87,4 +87,4 @@ production:
   <<: *default
   database: moringa_api_production
   username: moringa_api
-  password: <%= ENV["MORINGA_API_DATABASE_PASSWORD"] %>
+  password: <%= ENV["MORINGA_API_DATABASE_PASSWORD_PROD"] %>
