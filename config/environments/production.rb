@@ -69,6 +69,8 @@ Rails.application.configure do
 
   # store files on Azure
   config.active_storage.service = :azure
+  config.action_mailer.default_url_options = { host: 'moringa-alumni.vercel.app' }
+  Rails.application.routes.default_url_options[:host] = "moringa-alumni.vercel.app"
 
 
 end
