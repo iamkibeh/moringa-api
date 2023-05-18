@@ -70,7 +70,5 @@ Rails.application.configure do
   # store files on Azure
   config.active_storage.service = :azure
 
-  # enable precompilation of assets for production during build
-  config.assets.compile = true
 
 end
