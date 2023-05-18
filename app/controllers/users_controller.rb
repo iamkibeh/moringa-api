@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   #    create new user
   # POST /users
   def create
-    @user = User.create(user_params)
+    @user = User.new(signup_params)
     if @user.save
       render json: @user, status: :created
     else
@@ -91,6 +91,7 @@ class UsersController < ApplicationController
       :user_location,
       :email,
       :password,
+      :password_confirmation,
       :agreement,
       :country,
       :user_type,
@@ -104,6 +105,10 @@ class UsersController < ApplicationController
       :profile_img,
       :cover_img
     )
+  end
+
+  def signup_params
+    params.permit(:email, :password, :password_confirmation, :agreement, :user_type, :first_name, :last_name)
   end
 
   def render_not_found_response
