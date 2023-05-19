@@ -18,7 +18,7 @@ class Post < ApplicationRecord
 
   # associate attached images with post model
   def post_img
-    # images.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
-    images.map { |image| Rails.application.routes.url_helpers.url_for(image, only_path: true) }
+    images.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
+    # images.map { |image| Rails.application.routes.url_helpers.url_for(image) }
   end
 end
