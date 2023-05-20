@@ -219,10 +219,12 @@ DEPENDENCIES
   debug
   image_processing (~> 1.2)
   jwt
+  mini_magick (~> 4.11, >= 4.11.0)
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.4)
+  ruby-vips (~> 2.1, >= 2.1.4)
   tzinfo-data
 
 RUBY VERSION

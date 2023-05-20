@@ -31,17 +31,17 @@ class UsersController < ApplicationController
   #   update user details
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params.except(:profile_img, :cover_img))
-      if params[:profile_img].present? || params[:cover_img].present?
-        if params[:profile_img].present?
-          @user.avatar.attach(params[:profile_img])
+    if @user.update(user_params.except(:avatar, :cover_photo))
+      if user_params[:avatar].present? || user_params[:cover_photo].present?
+        if user_params[:avatar].present?
+          @user.avatar.attach(user_params[:avatar])
         end
-        if params[:cover_img].present?
-          @user.cover_photo.attach(params[:cover_img])
+        if user_params[:cover_photo].present?
+          @user.cover_photo.attach(user_params[:cover_photo])
         end
         if @user.update(
-             profile_img: url_for(@user.avatar),
-             cover_img: url_for(@user.cover_photo)
+             profile_img: @user.avatar,
+             cover_img: @user.cover_photo
            )
           return render json: @user, status: :ok
         end
@@ -102,8 +102,10 @@ class UsersController < ApplicationController
       :bio,
       :company_name,
       :company_website,
-      :profile_img,
-      :cover_img
+      # :profile_img,
+      # :cover_img
+      :avatar,
+      :cover_photo
     )
   end
 

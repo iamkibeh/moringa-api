@@ -37,6 +37,8 @@ end
 
 # active storage for file uploads [https://edgeguides.rubyonrails.org/active_storage_overview.html]
 gem "image_processing", "~> 1.2"
+gem 'ruby-vips', '~> 2.1', '>= 2.1.4'
+gem 'mini_magick', '~> 4.11', '>= 4.11.0'
 
 # azure storage blob for active storage 
 gem "azure-storage-blob", require: false
