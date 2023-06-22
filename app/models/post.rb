@@ -18,6 +18,8 @@ class Post < ApplicationRecord
     # images.map { |image| Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) }
     if self.images.attached?
       self.images.map { |image| url_for(image) }
+    else
+      []
     end
   end
 end
