@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController
+class  Api::V1::CommentsController < ApplicationController
   before_action :set_comment, only: %i[update destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 

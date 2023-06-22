@@ -1,4 +1,4 @@
-class LikesController < ApplicationController
+class  Api::V1::LikesController < ApplicationController
   before_action :set_like, only: %i[destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   # List all likes for a post (GET /posts/:id/likes)

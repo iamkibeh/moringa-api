@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class  Api::V1::AuthController < ApplicationController
   # skip the jwt authentication for the autologin and create actions
 
   skip_before_action :authorized, only: %i[create autologin]

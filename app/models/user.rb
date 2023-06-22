@@ -13,7 +13,7 @@ class User < ApplicationRecord
   # user associations
   has_many :comments
   has_many :likes
-  has_many :posts
+  has_many :posts, dependent: :destroy
   has_many :commented_posts, through: :comments, source: :post
   has_many :liked_posts, through: :likes, source: :post
 
@@ -26,4 +26,18 @@ class User < ApplicationRecord
       Rails.application.routes.url_helpers.url_for(cover_photo)
     end
   end
+
+  before_save :downcase_email
+  before_save :capitalize_names
+
+  def downcase_email
+    self.email = email.downcase
+  end
+
+  def capitalize_names
+    self.first_name = first_name.capitalize
+    self.last_name = last_name.capitalize
+  end
+
+
 end

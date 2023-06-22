@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class  Api::V1::UsersController < ApplicationController
   skip_before_action :authorized, only: %i[create index show]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   # all users

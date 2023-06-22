@@ -1,4 +1,4 @@
-class PhotosController < ApplicationController
+class  Api::V1::PhotosController < ApplicationController
   # update the profile image of a user
 
   def update_profile_img
