@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_24_081837) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_214054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,19 +62,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_081837) do
   create_table "posts", force: :cascade do |t|
     t.string "post_title"
     t.string "post_description"
-    t.string "post_images"
     t.string "post_category"
     t.string "post_type"
     t.integer "user_id"
+    t.integer "post_likes", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "post_likes", default: 0
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
     t.string "phone_number"
     t.string "password_digest"
     t.boolean "agreement"
@@ -82,15 +81,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_24_081837) do
     t.string "linkedin_url"
     t.string "twitter_url"
     t.string "cv_url"
-    t.string "profile_img"
-    t.string "cover_img"
     t.string "country"
     t.string "bio"
-    t.string "profession"
+    t.string "profession", default: ["Developer"], array: true
     t.string "user_type"
     t.string "company_name"
     t.string "company_website"
     t.string "user_location"
+    t.string "username"
+    t.string "portfolio_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

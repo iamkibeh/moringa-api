@@ -2,10 +2,9 @@ class PostSerializer < ActiveModel::Serializer
   attributes :id,
              :post_title,
              :post_description,
-             :post_img,
              :post_likes,
+             :media,
              :post_category,
-             #  :post_comment,
              :post_type,
              :user_id,
              :created_at
@@ -16,5 +15,9 @@ class PostSerializer < ActiveModel::Serializer
   # serialize the user object
   def user
     object.user.as_json(only: %i[id first_name last_name profile_img])
+  end
+
+  def media
+    object.get_post_images
   end
 end

@@ -25,3 +25,12 @@
 #  Ignore .env files
 .env
 /config/local_env.yml
+
+# Ignore byebug command history file.
+.byebug_history
+
+# Ignore node_modules
+/node_modules
+
+# ignore images stored in ActiveStorage
+/storage/*

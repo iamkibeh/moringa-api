@@ -4,14 +4,20 @@ class  Api::V1::CommentsController < ApplicationController
 
   # GET /comments get all comments for a post
   def index
-    @comments = Comment.where(post_id: params[:id])
-    render json: @comments, status: :ok
+    @post = Post.find_by!(id: params[:post_id])
+    @comments = Comment.where(post_id: params[:post_id])
+    if @post
+      render json: @comments, status: :ok
+    else
+      throw ActiveRecord::RecordNotFound
+    end
   end
 
   # get /comments/:id get a comment for a post by a user
   def show
-    @comments = Comment.where(post_id: params[:id])
-    @comment = @comments.find_by!(id: params[:comment_id])
+    # @comments = Comment.where(post_id: params[:post_id])
+    # @comment = @comments.find_by!(id: params[:id])
+    @comment = Comment.find_by!(id: params[:id])
     render json: @comment, status: :ok
   end
 
@@ -19,8 +25,7 @@ class  Api::V1::CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user_id = current_user.id
-    @comment.post_id = params[:id]
-    @comment.parent_comment_id = params[:comment_id] if params[:comment_id]
+    @comment.post_id = params[:post_id]
     if @comment.save
       render json: @comment, status: :created
     else
@@ -39,7 +44,12 @@ class  Api::V1::CommentsController < ApplicationController
 
   # DELETE /comments/1 delete a comment for a post by a user
   def destroy
-    @comment.destroy
+    if @comment.user_id == current_user.id
+      @comment.destroy 
+      render json: { message: "Comment deleted successfully" }, status: :ok
+    else
+      render json: { error: "You cannot delete other user's comment" }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -49,8 +59,8 @@ class  Api::V1::CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
   end
 
-  def render_not_found_response
-    render json: { error: "Comment not found" }, status: :not_found
+  def render_not_found_response e
+    render json: { error: e }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.

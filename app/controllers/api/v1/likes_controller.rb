@@ -1,26 +1,27 @@
 class  Api::V1::LikesController < ApplicationController
   before_action :set_like, only: %i[destroy]
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+  rescue_from ActiveRecord::RecordNotFound, with: :rescue_from_not_found_response
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+
   # List all likes for a post (GET /posts/:id/likes)
   def index
-    # @post = Post.find_by(id: params[:id])
-    # @likes = @post.post_like
-    @likes = Like.where(post_id: params[:id])
-    render json: @likes
+    @post = Post.find_by!(id: params[:post_id])
+    @likes = Like.where(post_id: params[:post_id])
+    if @post
+      render json: @likes
+    else
+      throw ActiveRecord::RecordNotFound
+    end
   end
 
   # POST /likes create a like for a post by a user
   def create
     @like = Like.new()
     @like.user_id = current_user.id
-    @like.post_id = params[:id]
+    @like.post_id = params[:post_id]
     if @like.save
-      # render json: @like, status: :created, location: @like
-      # Redirect to the appropriate path after a successful save
-      # increment the like count for the associated post.
-      # @like.post.update(likes_count: @like.post.likes.count)
       @like.post.increment!(:post_likes)
-      redirect_to post_path(@like.post_id), notice: "Like created successfully."
+      render json: @like, status: :created, location: api_v1_post_likes_url(@like)
     else
       render json: @like.errors.full_messages, status: :unprocessable_entity
     end
@@ -29,7 +30,6 @@ class  Api::V1::LikesController < ApplicationController
   # DELETE /likes/1
   def destroy
     if @like.destroy
-      # decrement the like count for the associated post.
       @like.post.decrement!(:post_likes)
       head :no_content
     else
@@ -41,14 +41,15 @@ class  Api::V1::LikesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_like
-    @like = Like.find_by!(user_id: params[:user_id])
+    @like = Like.find_by!(user_id: current_user.id)
   end
 
-  def render_not_found_response
-    render json: {
-             error: "You cannot unlike more than once"
-           },
-           status: :not_found
+  def record_invalid
+    render json: { error: "You cannot unlike more than once" }, status: :not_found
+  end
+
+  def rescue_from_not_found_response e
+    render json: {  error: e }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.

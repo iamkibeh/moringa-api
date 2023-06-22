@@ -1,8 +1,11 @@
 class User < ApplicationRecord
+  include Rails.application.routes.url_helpers
   has_secure_password
 
   # attach avatar to user
-  has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [50, 50]
+  end
   has_one_attached :cover_photo
 
   validates :email, presence: true, uniqueness: true
@@ -17,14 +20,12 @@ class User < ApplicationRecord
   has_many :commented_posts, through: :comments, source: :post
   has_many :liked_posts, through: :likes, source: :post
 
-  def profile_img
-    Rails.application.routes.url_helpers.url_for(avatar) if avatar.attached?
+  def get_profile_img
+    url_for(self.avatar.variant(:thumb).processed) if self.avatar.attached?
   end
 
-  def cover_img
-    if cover_photo.attached?
-      Rails.application.routes.url_helpers.url_for(cover_photo)
-    end
+  def get_cover_img
+      url_for(self.cover_photo) if self.cover_photo.attached?
   end
 
   before_save :downcase_email
