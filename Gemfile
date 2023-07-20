@@ -43,3 +43,13 @@ gem 'mini_magick', '~> 4.11', '>= 4.11.0'
 
 # azure storage blob for active storage 
 gem "azure-storage-blob", require: false
+
+# Use Redis adapter to run Action Cable in production [https://edgeguides.rubyonrails.org/action_cable_overview.html#deployment]
+gem "redis", "~> 4.0"
+
+# Use action cable for real time updates [https://edgeguides.rubyonrails.org/action_cable_overview.html]
+gem "actioncable", "~> 7.0.4"
+
+# background jobs [https://edgeguides.rubyonrails.org/active_job_basics.html] 
+gem "sidekiq", "~> 6.2", ">= 6.2.2"
+
