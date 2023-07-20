@@ -17,13 +17,26 @@ class  Api::V1::PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params.except(:images))
-    @post.user_id = current_user.id
+    @post = current_user.posts.build(post_params.except(:images))
     images = params[:post][:images]
-    images.each { |image| @post.images.attach(image) } if images
-    @post.save!
-    render json: @post, status: :created
+    @post.images.attach(images) if images
+    @post.save
+    
+    if @post.persisted?
+      # PostBroadcastJob.perform_later(@post) # enqueue job for broadcast
+      serialized_data = ActiveModelSerializers::SerializableResource.new(@post, { serializer: PostSerializer })
+      ActionCable.server.broadcast('posts_channel', {
+        type: 'post_created',
+        payload: {
+          post: serialized_data
+        }
+      })
+      render json: @post, status: :created
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
+
 
   # PATCH/PUT /posts/1
   def update

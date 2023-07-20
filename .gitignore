@@ -34,3 +34,5 @@
 
 # ignore images stored in ActiveStorage
 /storage/*
+
+.byebug_history
