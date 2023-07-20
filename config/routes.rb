@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+
     namespace :api do
         namespace :v1 do
+            mount ActionCable.server => '/cable'
+
             post "/login", to: "auth#create"
             post "/signup", to: "users#create"
             resources :users, only: %i[update index show create] do
