@@ -12,7 +12,7 @@ require "action_mailer/railtie"
 # require "action_mailbox/engine"
 # require "action_text/engine"
 require "action_view/railtie"
-# require "action_cable/engine"
+require "action_cable/engine"
 require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -43,5 +43,11 @@ module MoringaApi
         .load(File.open(env_file))
         .each { |key, value| ENV[key.to_s] = value } if File.exists?(env_file)
     end
+
+    # mount ActionCable.server => '/cable'
+    config.action_cable.mount_path = '/cable'
+
+    # use sidekiq for background jobs
+    config.active_job.queue_adapter = :sidekiq
   end
 end
