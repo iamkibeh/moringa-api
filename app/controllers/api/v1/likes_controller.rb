@@ -21,6 +21,12 @@ class  Api::V1::LikesController < ApplicationController
     @like.post_id = params[:post_id]
     if @like.save
       @like.post.increment!(:post_likes)
+      ActionCable.server.broadcast('posts_channel', {
+        action: 'like_created',
+        payload: {
+          like: @like
+        }
+      })
       render json: @like, status: :created, location: api_v1_post_likes_url(@like)
     else
       render json: @like.errors.full_messages, status: :unprocessable_entity
@@ -31,6 +37,12 @@ class  Api::V1::LikesController < ApplicationController
   def destroy
     if @like.destroy
       @like.post.decrement!(:post_likes)
+      ActionCable.server.broadcast('posts_channel', {
+        action: 'like_deleted',
+        payload: {
+          like: @like
+        }
+      })
       head :no_content
     else
       render json: @like.errors, status: :unprocessable_entity

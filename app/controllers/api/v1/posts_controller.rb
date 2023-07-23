@@ -5,14 +5,15 @@ class  Api::V1::PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
-    render json: @posts
+    @posts = Post.all.order(created_at: :desc)
+    @liked_post_ids = current_user.likes.pluck(:post_id)
+    render json: { posts: ActiveModelSerializers::SerializableResource.new(@posts, each_serializer: PostSerializer ), liked_post_ids: @liked_post_ids }, status: :ok
   end
 
   # GET /posts/1
   def show
     # include image url in a post
-    render json: @post, include: :images
+    render json: @post, include: :images, status: :ok
   end
 
   # POST /posts
