@@ -22,7 +22,7 @@ class  Api::V1::LikesController < ApplicationController
     if @like.save
       @like.post.increment!(:post_likes)
       ActionCable.server.broadcast('posts_channel', {
-        action: 'like_created',
+        type: 'like_created',
         payload: {
           like: @like
         }
@@ -38,7 +38,7 @@ class  Api::V1::LikesController < ApplicationController
     if @like.destroy
       @like.post.decrement!(:post_likes)
       ActionCable.server.broadcast('posts_channel', {
-        action: 'like_deleted',
+        type: 'like_deleted',
         payload: {
           like: @like
         }
@@ -53,7 +53,7 @@ class  Api::V1::LikesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_like
-    @like = Like.find_by!(user_id: current_user.id)
+    @like = Like.find_by!(user_id: current_user.id, post_id: params[:post_id])
   end
 
   def record_invalid

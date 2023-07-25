@@ -2,11 +2,16 @@ class  Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[show update destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  skip_before_action :authorized, only: %i[index show]
 
   # GET /posts
   def index
     @posts = Post.all.order(created_at: :desc)
-    @liked_post_ids = current_user.likes.pluck(:post_id)
+    if current_user
+      @liked_post_ids = current_user.likes.pluck(:post_id)
+    else
+      @liked_post_ids = []
+    end
     render json: { posts: ActiveModelSerializers::SerializableResource.new(@posts, each_serializer: PostSerializer ), liked_post_ids: @liked_post_ids }, status: :ok
   end
 

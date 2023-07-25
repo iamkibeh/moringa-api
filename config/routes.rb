@@ -17,7 +17,7 @@ Rails.application.routes.draw do
                 resources :comments, only: %i[index create update destroy]
                 resources :likes, only: %i[index create destroy]
             end
-            delete "/posts/:id/likes", to: "likes#destroy"
+            delete "/posts/:post_id/likes", to: "likes#destroy"
             get "/posts/:post_id/comments/:id", to: "comments#show"
 
             # update user cover photo and profile photo
