@@ -10,7 +10,8 @@ class  Api::V1::UsersController < ApplicationController
 
   #   find single user
   def show
-    render json: current_user, status: :ok
+    @user = User.find_by!(id: params[:id])
+    render json: @user, status: :ok
   end
 
   #    create new user
@@ -41,9 +42,10 @@ class  Api::V1::UsersController < ApplicationController
   # custom route actions
 
   def activities
-    @comments = current_user.comments
-    @posts = current_user.posts
-    @liked_posts = current_user.liked_posts
+    @user = User.find_by!(id: params[:user_id])
+    @comments = @user.comments
+    @posts = @user.posts
+    @liked_posts = @user.liked_posts
     render json: { comments: @comments, posts: @posts, liked_posts: @liked_posts }, status: :ok
   end
 

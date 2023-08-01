@@ -15,8 +15,6 @@ class  Api::V1::CommentsController < ApplicationController
 
   # get /comments/:id get a comment for a post by a user
   def show
-    # @comments = Comment.where(post_id: params[:post_id])
-    # @comment = @comments.find_by!(id: params[:id])
     @comment = Comment.find_by!(id: params[:id])
     render json: @comment, status: :ok
   end
