@@ -9,7 +9,6 @@ class CommentSerializer < ActiveModel::Serializer
 
 
   def replies
-   
     object.replies.map do |reply|
         {
           id: reply.id,
