@@ -72,5 +72,10 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'https://moringa-api-service.onrender.com' }
   Rails.application.routes.default_url_options[:host] = "https://moringa-api-service.onrender.com"
 
+  # Use a different cache store in production.
+  config.cache_store = :redis_cache_store, {
+    url: ENV['REDIS_URL']
+  }
+
 
 end

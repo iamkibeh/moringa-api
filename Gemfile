@@ -53,3 +53,4 @@ gem "actioncable", "~> 7.0.4"
 # background jobs [https://edgeguides.rubyonrails.org/active_job_basics.html] 
 gem "sidekiq", "~> 6.2", ">= 6.2.2"
 
+gem "hiredis"
